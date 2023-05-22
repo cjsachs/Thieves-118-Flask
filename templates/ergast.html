@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+
+{% block title %}
+    Ergast Page
+{% endblock %}
+
+{% block content %}
+    <h1>Ergast Page</h1>
+    <form class="px-3" action="/ergast" method="POST">
+        <div class="form-group">
+          <label for="year">Enter Year: </label>
+          <input type="text" class="form-control" id="year" name="year">
+        </div>
+        <div class="form-group mt-2">
+          <label for="rnd">Enter Round: </label>
+          <input type="text" class="form-control" id="rnd" name="rnd">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Search Results!</button>
+    </form>
+    {% if drivers_data %}
+        <table class="table table-striped table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Drivers Name</th>
+                <th scope="col">Team</th>
+                <th scope="col">Wins</th>
+                <th scope="col">DOB</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for driver in drivers_data %}
+                <tr>
+                    <th>{{driver.full_name}}</th>
+                    <td>{{driver.team}}</td>
+                    <td>{{driver.wins}}</td>
+                    <td>{{driver.DOB}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
