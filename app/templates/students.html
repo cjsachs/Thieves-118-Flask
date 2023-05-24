@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Students Page
+{% endblock %}
+
+    {% block content %}
+    <h1>Students Page</h1>
+    {% for student in students_lst %}
+        {% if student == 'Will'%}
+            <h2>{{student}}</h2>
+        {% else %}
+            <li>{{student}}</li>
+        {% endif %}
+    {% endfor %}
+    {% endblock %}
