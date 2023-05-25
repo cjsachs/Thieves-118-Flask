@@ -1,29 +1,16 @@
 from flask import request, render_template
 import requests
-from app.forms import LoginForm
+from app.forms import LoginForm, SignUpForm
 from app import app
 
 @app.route("/")
-def hello_world():
-    return "<p>Hello, Thieves!</p>"
-
-
 @app.route('/home')
 def home():
-    return '<h1>This is the home page</h1>'
-
-@app.route('/user/<username>')
-def username(username):
-    return f'Hello {username}!'
-
-@app.route('/post/<int:post_id>')
-def show_post(post_id):
-    # show the post with the given id, the id is an integer
-    return f'Post {post_id}'
+    return render_template('home.html')
 
 REGISTERED_USERS = {
     'dylank@thieves.com': {
-        'name': 'Dylan',
+        'name': 'Dylan Katina',
         'password': 'ilovemydog'
     }
 }
@@ -41,6 +28,23 @@ def login():
     else:
         print('not validated')
         return render_template('login.html', form=form)
+    
+# SIGN UP FORM
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    form = SignUpForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        name = form.first_name.data + ' ' + form.last_name.data
+        email = form.email.data.lower()
+        password = form.password.data
+        REGISTERED_USERS[email] = {
+            'name': name,
+            'password': password
+        }
+        print(REGISTERED_USERS)
+        return 'Thank you for signing up!'
+    else:
+        return render_template('signup.html', form=form)
     
 @app.route('/students')
 def students():

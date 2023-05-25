@@ -5,10 +5,19 @@
 {% endblock %}
 
     {% block content %}
-    <form action="" method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.email }}
-        {{ form.password }}
-        {{ form.submit_btn }}
-    </form>
+    <div class="container w-25" id="form-container">
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.email.label }}
+                {{ form.email(class="form-control") }}
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                {{ form.password.label }}
+                {{ form.password(class="form-control") }}
+            </div>
+            {{ form.submit_btn(class="btn btn-primary d-block mx-auto") }}
+        </form>
+    </div>
     {% endblock %}
