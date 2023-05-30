@@ -19,5 +19,8 @@
             </div>
             {{ form.submit_btn(class="btn btn-primary d-block mx-auto") }}
         </form>
+        {% if error %}
+            <p class="text-center text-danger">{{ error }}</p>
+        {% endif %}
     </div>
     {% endblock %}
