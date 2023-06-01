@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String)
     created_on = db.Column(db.DateTime, default=datetime.utcnow())
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     # hashes our password when user signs up
     def hash_password(self, signup_password):
@@ -22,6 +23,24 @@ class User(UserMixin, db.Model):
         self.email = user_data['email']
         self.password = self.hash_password(user_data['password'])
 
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    img_url = db.Column(db.String)
+    title = db.Column(db.String(30))
+    caption = db.Column(db.String(30))
+    created_on = db.Column(db.DateTime, default=datetime.utcnow())
+    # FK
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    # This method will assign our columns with their respective values
+    def from_dict(self, post_data):
+        self.img_url = post_data['img_url']
+        self.title = post_data['title']
+        self.caption = post_data['caption']
+        self.user_id = post_data['user_id']
+ 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)

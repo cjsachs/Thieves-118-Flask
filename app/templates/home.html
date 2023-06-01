@@ -5,5 +5,21 @@
 {% endblock %}
 
 {% block content %}
-    <h1>This is the Thieves Home Page</h1>
+    <h1 class="text-center">This is the Thieves Home Page</h1>
+    {% if posts %}
+        {% for post in posts %}
+            <div class="card shadow p-3 mb-5 bg-body-tertiary rounded mx-auto" style="width: 18rem;">
+                <img src="{{post.img_url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{post.title}}</h5>
+                    <p class="card-text">{{post.caption}}</p>
+                    {% if current_user.id == post.user_id %}
+                        <a href="#" class="btn btn-success">Update</a>
+                        <a href="#" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                    <p>{{ post.author.first_name }} - {{ moment(post.created_on).fromNow() }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

@@ -1,11 +1,10 @@
 from flask import request, render_template, redirect, url_for, flash
-import requests
 from app.blueprints.auth.forms import LoginForm, SignUpForm
 from app import db
 from . import auth
 from app.models import User
 from werkzeug.security import check_password_hash
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import login_user, logout_user, login_required
 
 
 

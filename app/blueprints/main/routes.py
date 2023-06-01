@@ -2,11 +2,13 @@ from flask import request, render_template
 import requests
 from . import main
 from flask_login import login_required
+from app.models import Post
 
 @main.route("/")
 @main.route('/home')
 def home():
-    return render_template('home.html')
+    posts = Post.query.all()
+    return render_template('home.html', posts=posts[::-1])
 
 
     
