@@ -14,8 +14,8 @@
                     <h5 class="card-title">{{post.title}}</h5>
                     <p class="card-text">{{post.caption}}</p>
                     {% if current_user.id == post.user_id %}
-                        <a href="#" class="btn btn-success">Update</a>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="{{ url_for('posts.update_post', post_id=post.id) }}" class="btn btn-success">Update</a>
+                        <a href="{{ url_for('posts.delete_post', post_id=post.id)}}" class="btn btn-danger">Delete</a>
                     {% endif %}
                     <p>{{ post.author.first_name }} - {{ moment(post.created_on).fromNow() }}</p>
                 </div>

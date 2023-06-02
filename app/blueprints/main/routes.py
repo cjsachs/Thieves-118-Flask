@@ -1,8 +1,8 @@
 from flask import request, render_template
 import requests
 from . import main
-from flask_login import login_required
-from app.models import Post
+from flask_login import login_required, current_user
+from app.models import Post, User
 
 @main.route("/")
 @main.route('/home')
@@ -50,3 +50,11 @@ def get_driver_info(data):
             new_driver_data.append(driver_dict)
     return new_driver_data
 
+@main.route('/contact')
+@login_required
+def contacts():
+    users = User.query.all()
+    for user in users:
+        if user in current_user.followed:
+            user.isFollowing = True
+    return render_template('contacts.html', users=users)

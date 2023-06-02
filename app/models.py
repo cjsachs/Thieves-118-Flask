@@ -3,6 +3,12 @@ from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash
 
+followers_followed = db.Table( 
+    'followers_followed',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
@@ -11,6 +17,13 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String)
     created_on = db.Column(db.DateTime, default=datetime.utcnow())
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    followed = db.relationship('User',
+        secondary = followers_followed,
+        primaryjoin = (followers_followed.columns.follower_id == id),
+        secondaryjoin = (followers_followed.columns.followed_id == id),
+        backref = db.backref('followers_followed', lazy='dynamic'),
+        lazy='dynamic'
+    )
 
     # hashes our password when user signs up
     def hash_password(self, signup_password):
